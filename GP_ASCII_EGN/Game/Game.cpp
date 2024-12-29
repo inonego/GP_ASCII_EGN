@@ -6,8 +6,13 @@ void Game::Initialize() {
 
 }
 
+int a = 0;
+
 void Game::Update() {
-	Render::GetCurrentBuffer()->SetColor(ColorCode::COLOR_F_WHITE | ColorCode::COLOR_B_BLUE);
-    Render::GetCurrentBuffer()->WriteBufferText(0, 0, "Hello, World!");
-	Render::GetCurrentBuffer()->EndColor();
+    FrameDrawer g(Render::GetCurrentBuffer());
+
+    Point center = g.GetRectCenter(Rect(0, 0, g.GetWidth(), g.GetHeight()));
+    
+    g.DrawBox(Rect(center.X - 15, center.Y - 1, center.X + 15, center.Y + 1), false, false);
+    g.PrintText(center, TextAlignment::TEXTALIGNMENT_CENTER, 40, "Hello, %d World!", a++);
 }

@@ -1,4 +1,4 @@
-#include "Render.h"
+﻿#include "Render.h"
 
 int Render::currentBufferIndex = 0;
 

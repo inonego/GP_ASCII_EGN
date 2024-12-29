@@ -1,4 +1,4 @@
-#include "Graphics.h"
+ï»¿#include "Graphics.h"
 
 FrameBuffer::FrameBuffer(int width, int height)
 {
@@ -11,7 +11,7 @@ FrameBuffer::FrameBuffer(int width, int height)
 
     Clear();
 
-    // ÄÜ¼Ö ½ºÅ©¸° ¹öÆÛ »ı¼º
+    // ì½˜ì†” ìŠ¤í¬ë¦° ë²„í¼ ìƒì„±
     COORD size = { width, height };
     SMALL_RECT rect = { 0, 0, width - 1, height - 1 };
     CONSOLE_CURSOR_INFO info;
@@ -33,7 +33,7 @@ FrameBuffer::~FrameBuffer() {
     delete[] buffer;
     delete[] attributes;
 
-    // ÄÜ¼Ö ½ºÅ©¸° ¹öÆÛ ÇØÁ¦
+    // ì½˜ì†” ìŠ¤í¬ë¦° ë²„í¼ í•´ì œ
     CloseHandle(hBuffer);
 }
 
@@ -54,18 +54,18 @@ void FrameBuffer::Show() {
     DWORD dw1, dw2;
     COORD co = { 0, 0 };
 
-    // È­¸é¿¡ Ãâ·ÂÇÏ±â À§ÇØ CharInfo ¹è¿­À» charÇüÀÇ ¹®ÀÚ¿­·Î º¯È¯½ÃÅµ´Ï´Ù.
+    // í™”ë©´ì— ì¶œë ¥í•˜ê¸° ìœ„í•´ CharInfo ë°°ì—´ì„ charí˜•ì˜ ë¬¸ìì—´ë¡œ ë³€í™˜ì‹œí‚µë‹ˆë‹¤.
     ConvertStringCharInfo2Char(buffer, chars, (size_t)width * height);
 
     for (i = 0; i < width * height; i++) {
         attributes[i] = chars[i].attribute;
     }
 
-    // ÄÜ¼Ö ½ºÅ©¸° ¹öÆÛ¿¡ Ãâ·ÂÇÕ´Ï´Ù.
+    // ì½˜ì†” ìŠ¤í¬ë¦° ë²„í¼ì— ì¶œë ¥í•©ë‹ˆë‹¤.
     WriteConsoleOutputCharacterA(hBuffer, buffer, (DWORD)strlen(buffer), co, &dw1);
     WriteConsoleOutputAttribute(hBuffer, attributes, (size_t)width * height, co, &dw2);
 
-    // ÄÜ¼Ö ½ºÅ©¸° ¹öÆÛ¸¦ È°¼ºÈ­½ÃÅµ´Ï´Ù.
+    // ì½˜ì†” ìŠ¤í¬ë¦° ë²„í¼ë¥¼ í™œì„±í™”ì‹œí‚µë‹ˆë‹¤.
     SetConsoleActiveScreenBuffer(hBuffer);
 }
 
@@ -132,7 +132,7 @@ int FrameBuffer::WriteBufferCharacter(int x, int y, WORD c) {
 
 void FrameBuffer::WriteBufferText(int x, int y, const char str[]) {
 
-    WORD t = (WORD)'¦¡';
+    WORD t = (WORD)'â”€';
     int i = 0, index = 0;
 
     WORD* words = new WORD[strlen(str) + 1];
@@ -170,7 +170,7 @@ void FrameBuffer::EndColor() {
     color = defaultColor;
 }
 
-//1byte charÇüÀÇ ¹®ÀÚ¿­À» 2byte WORDÇüÀÇ ¹®ÀÚ¿­·Î º¯È¯½ÃÅµ´Ï´Ù.
+//1byte charí˜•ì˜ ë¬¸ìì—´ì„ 2byte WORDí˜•ì˜ ë¬¸ìì—´ë¡œ ë³€í™˜ì‹œí‚µë‹ˆë‹¤.
 void FrameBuffer::ConvertStringChar2Word(WORD* str, const char src[], size_t size) {
     unsigned int i, index = 0;
 
@@ -187,31 +187,31 @@ void FrameBuffer::ConvertStringChar2Word(WORD* str, const char src[], size_t siz
 }
 
 /*
-½Ì±Û¹ÙÀÌÆ® ¹®ÀÚ´Â 1¹ÙÀÌÆ®¸¦ Â÷ÁöÇÏ°í ÄÜ¼Ö¿¡¼­µµ Ä¿¼­¸¦ 1Ä­ ÀÌµ¿½ÃÅµ´Ï´Ù.
-Æ¯Á¤ ¹®ÀÚ¸¦ Á¦¿ÜÇÑ ¸ÖÆ¼¹ÙÀÌÆ® ¹®ÀÚ´Â 2¹ÙÀÌÆ®¸¦ Â÷ÁöÇÏ°í ÄÜ¼Ö¿¡¼­µµ Ä¿¼­¸¦ 2Ä­ ÀÌµ¿½ÃÅµ´Ï´Ù.
+ì‹±ê¸€ë°”ì´íŠ¸ ë¬¸ìëŠ” 1ë°”ì´íŠ¸ë¥¼ ì°¨ì§€í•˜ê³  ì½˜ì†”ì—ì„œë„ ì»¤ì„œë¥¼ 1ì¹¸ ì´ë™ì‹œí‚µë‹ˆë‹¤.
+íŠ¹ì • ë¬¸ìë¥¼ ì œì™¸í•œ ë©€í‹°ë°”ì´íŠ¸ ë¬¸ìëŠ” 2ë°”ì´íŠ¸ë¥¼ ì°¨ì§€í•˜ê³  ì½˜ì†”ì—ì„œë„ ì»¤ì„œë¥¼ 2ì¹¸ ì´ë™ì‹œí‚µë‹ˆë‹¤.
 
- g_width * g_height Å©±âÀÇ ¹®ÀÚ ¹è¿­¿¡¼­ ¸ğµç ¹®ÀÚ¸¦ ±×´ë·Î Ãâ·ÂÇÏ°ÔµÇ¸é ¸ÖÆ¼¹ÙÀÌÆ® ¹®ÀÚ¸¦ Ãâ·ÂÇÒ ¶§¸¶´Ù ÇÑ Ä­¾¿ ¹Ğ¸®´Â Çö»óÀÌ ¹ß»ıÇÏ°Ô µÇ¹Ç·Î
- ¸ÖÆ¼¹ÙÀÌÆ® ¹®ÀÚ ÇÑ Ä­ µÚÀÇ ¹®ÀÚ´Â ¹«½ÃÇÏ¿©(ÄÚµå¿¡¼­ i++¸¦ ÀÌ¿ëÇØ ³Ñ¾î°¨) ÀÌ¸¦ ¹æÁöÇÕ´Ï´Ù.
+ g_width * g_height í¬ê¸°ì˜ ë¬¸ì ë°°ì—´ì—ì„œ ëª¨ë“  ë¬¸ìë¥¼ ê·¸ëŒ€ë¡œ ì¶œë ¥í•˜ê²Œë˜ë©´ ë©€í‹°ë°”ì´íŠ¸ ë¬¸ìë¥¼ ì¶œë ¥í•  ë•Œë§ˆë‹¤ í•œ ì¹¸ì”© ë°€ë¦¬ëŠ” í˜„ìƒì´ ë°œìƒí•˜ê²Œ ë˜ë¯€ë¡œ
+ ë©€í‹°ë°”ì´íŠ¸ ë¬¸ì í•œ ì¹¸ ë’¤ì˜ ë¬¸ìëŠ” ë¬´ì‹œí•˜ì—¬(ì½”ë“œì—ì„œ i++ë¥¼ ì´ìš©í•´ ë„˜ì–´ê°) ì´ë¥¼ ë°©ì§€í•©ë‹ˆë‹¤.
 */
 
-//CharInfo ¹è¿­À» 1byte charÇüÀÇ ¹®ÀÚ¿­·Î º¯È¯½ÃÅµ´Ï´Ù.
+//CharInfo ë°°ì—´ì„ 1byte charí˜•ì˜ ë¬¸ìì—´ë¡œ ë³€í™˜ì‹œí‚µë‹ˆë‹¤.
 void FrameBuffer::ConvertStringCharInfo2Char(char* str, const CharInfo src[], size_t size) {
     unsigned int i, index = 0;
 
     for (i = 0; i < size; i++) {
         if (src[i].isMBCS) {
-            //¸ÖÆ¼¹ÙÀÌÆ® ¹®ÀÚÀÎ °æ¿ì µÎ °³ÀÇ ¹ÙÀÌÆ®¿¡ ³ª´² ÀúÀåÇÕ´Ï´Ù.
+            //ë©€í‹°ë°”ì´íŠ¸ ë¬¸ìì¸ ê²½ìš° ë‘ ê°œì˜ ë°”ì´íŠ¸ì— ë‚˜ëˆ  ì €ì¥í•©ë‹ˆë‹¤.
             str[index++] = (src[i].character >> 8) & 0xFF;
             str[index++] = src[i].character & 0xFF;
-            //Æ¯Á¤ ¸ÖÆ¼¹ÙÀÌÆ® ¹®ÀÚ´Â Ä¿¼­¸¦ ÇÑ Ä­¸¸ ÀÌµ¿½ÃÅ°¹Ç·Î ¹İº¹ÇÏ°Å³ª °ø¹éÀ» Ã¤¿ö Ä¿¼­¸¦ µÎ Ä­ ÀÌµ¿½ÃÅ°µµ·Ï ÇÕ´Ï´Ù. 
-            if ('¦¡' <= src[i].character && src[i].character <= '¦¡' + 72) {
+            //íŠ¹ì • ë©€í‹°ë°”ì´íŠ¸ ë¬¸ìëŠ” ì»¤ì„œë¥¼ í•œ ì¹¸ë§Œ ì´ë™ì‹œí‚¤ë¯€ë¡œ ë°˜ë³µí•˜ê±°ë‚˜ ê³µë°±ì„ ì±„ì›Œ ì»¤ì„œë¥¼ ë‘ ì¹¸ ì´ë™ì‹œí‚¤ë„ë¡ í•©ë‹ˆë‹¤. 
+            if ('â”€' <= src[i].character && src[i].character <= 'â”€' + 72) {
                 str[index++] = ' ';
             }
 
             i++;
         }
         else {
-            //±× ¿Ü ½Ì±Û¹ÙÀÌÆ® ¹®ÀÚ´Â ±×´ë·Î ÀúÀåÇÕ´Ï´Ù.
+            //ê·¸ ì™¸ ì‹±ê¸€ë°”ì´íŠ¸ ë¬¸ìëŠ” ê·¸ëŒ€ë¡œ ì €ì¥í•©ë‹ˆë‹¤.
             if (src[i].character == '\0') {
                 str[index++] = ' ';
             }

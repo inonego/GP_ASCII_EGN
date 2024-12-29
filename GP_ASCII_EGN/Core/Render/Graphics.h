@@ -37,6 +37,17 @@ struct Point {
     Point(int x, int y) : X(x), Y(y) {}
 };
 
+struct Rect {
+    int Left;
+    int Top;
+    int Right;
+    int Bottom;
+
+    Rect() : Rect(0, 0, 0, 0) {}
+
+    Rect(int left, int top, int right, int bottom) : Left(left), Top(top), Right(right), Bottom(bottom) {}
+};
+
 class FrameBuffer {
     friend class Render;
 
@@ -91,4 +102,28 @@ class FrameBuffer {
         // 색상을 지정합니다.
         void SetColor(WORD _color);
         void EndColor();
+};
+
+class FrameDrawer
+{
+    private:
+        FrameBuffer* buffer;
+    public:
+        FrameDrawer(FrameBuffer* buffer);
+        
+        int GetWidth()  { return buffer->GetWidth();  }
+        int GetHeight() { return buffer->GetHeight(); }
+
+        void PrintCharacter(Point point, WORD c);
+        void PrintCharacterColored(Point point, WORD c, WORD color);
+        void PrintText(Point point, const char str[]);
+        void PrintText(Point point, TextAlignment textAlignment, size_t size, const char* format, ...);
+        void PrintTextAligned(const char str[], Point point, TextAlignment textAlignment);
+
+        void DrawLineHorizontal(Point point, int length, WORD c);
+        void DrawLineVertical(Point point, int length, WORD c);
+        void DrawBox(Rect rect, bool fill, bool isHighlighted);
+        void DrawRectangle(Rect rect, WORD c, bool fill);
+        
+        Point GetRectCenter(Rect rect);
 };

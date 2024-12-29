@@ -1,4 +1,4 @@
-#include "H/Input.h"
+#include "Input.h"
 
 #include <Windows.h>
 
