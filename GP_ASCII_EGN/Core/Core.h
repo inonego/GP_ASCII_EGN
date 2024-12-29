@@ -11,10 +11,13 @@ static class Core
 {
     private:
         static bool isRunning;
+
+        static Game* game;
     public:
         static const bool IsRunning() { return isRunning; }
 
         static void Initialize(LPCWSTR name);
+        ~Core();
 
         static void Quit();
 

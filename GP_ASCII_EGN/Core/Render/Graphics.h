@@ -114,6 +114,9 @@ class FrameDrawer
         int GetWidth()  { return buffer->GetWidth();  }
         int GetHeight() { return buffer->GetHeight(); }
 
+        void SetColor(WORD _color);
+        void EndColor();
+
         void PrintCharacter(Point point, WORD c);
         void PrintCharacterColored(Point point, WORD c, WORD color);
         void PrintText(Point point, const char str[]);

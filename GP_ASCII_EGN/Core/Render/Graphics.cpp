@@ -2,6 +2,14 @@
 
 #include <string>
 
+void FrameDrawer::SetColor(WORD _color) {
+    buffer->SetColor(_color);
+}
+
+void FrameDrawer::EndColor() {
+    buffer->EndColor();
+}
+
 FrameDrawer::FrameDrawer(FrameBuffer* buffer) {
     this->buffer = buffer;
 }

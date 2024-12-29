@@ -4,6 +4,8 @@
 
 bool Core::isRunning = false;
 
+Game* Core::game = nullptr;
+
 void Core::Initialize(LPCWSTR name)
 {
     DisableMaximize();
@@ -17,7 +19,14 @@ void Core::Initialize(LPCWSTR name)
     Input::Initialize();
     Render::Initialize();
     
-    Game::Initialize();
+    game = new Game();
+
+    game->Initialize();
+}
+
+Core::~Core()
+{
+    delete game;
 }
 
 void Core::Quit()
@@ -34,8 +43,11 @@ void Core::Update()
         // 입력 처리
         Input::Update();
 
+        FrameBuffer* buffer = Render::GetCurrentBuffer();
+
         // 게임 업데이트
-        Game::Update();
+        game->Update();
+        game->Render(*buffer);
 
         // 렌더링
         Render::Update();
